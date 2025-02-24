@@ -1,40 +1,48 @@
-# DevOps Project: AWS Infrastructure Provisioning
+# 🌍 DevOps Project: AWS Infrastructure Provisioning
 
-This project automates the provisioning of AWS infrastructure using Terraform. The resources included in this setup are:
-- **EC2 Instances**
-- **VPC (Virtual Private Cloud)**
-- **RDS (Relational Database Service)**
-- **Security Groups**
+🚀 This project automates the provisioning of AWS infrastructure using Terraform. The resources included in this setup are:
 
-## Prerequisites
-Ensure you have the following installed before running this project:
-- [Terraform](https://developer.hashicorp.com/terraform/downloads)
-- [AWS CLI](https://aws.amazon.com/cli/)
-- AWS IAM credentials configured with sufficient permissions
+- 🖥️ **EC2 Instances**
+- 🌐 **VPC (Virtual Private Cloud)**
+- 🗄️ **RDS (Relational Database Service)**
+- 🔒 **Security Groups**
 
-## Terraform Directory Structure
+---
+
+## 📌 Prerequisites
+✅ Ensure you have the following installed before running this project:
+- 🏗️ [Terraform](https://developer.hashicorp.com/terraform/downloads)
+- ☁️ [AWS CLI](https://aws.amazon.com/cli/)
+- 🔑 AWS IAM credentials configured with sufficient permissions
+
+---
+
+## 📂 Terraform Directory Structure
 ```
-.
-├── main.tf        # Main Terraform configuration file
-├── variables.tf   # Input variables definition
-├── outputs.tf     # Output values
-├── provider.tf    # AWS provider configuration
-├── vpc.tf         # VPC configuration
-├── ec2.tf         # EC2 instance configuration
-├── rds.tf         # RDS database configuration
-├── security.tf    # Security Groups configuration
-└── terraform.tfvars # Variable values
+📂 Project Root
+├── 📄 main.tf        # Main Terraform configuration file
+├── 📄 variables.tf   # Input variables definition
+├── 📄 outputs.tf     # Output values
+├── 📄 provider.tf    # AWS provider configuration
+├── 📄 vpc.tf         # VPC configuration
+├── 📄 ec2.tf         # EC2 instance configuration
+├── 📄 rds.tf         # RDS database configuration
+├── 📄 security.tf    # Security Groups configuration
+└── 📄 terraform.tfvars # Variable values
 ```
 
-## Terraform Configuration
-### Provider Configuration (`provider.tf`)
+---
+
+## ⚙️ Terraform Configuration
+
+### ☁️ Provider Configuration (`provider.tf`)
 ```hcl
 provider "aws" {
   region = "us-east-1"
 }
 ```
 
-### VPC Configuration (`vpc.tf`)
+### 🌐 VPC Configuration (`vpc.tf`)
 ```hcl
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -46,7 +54,7 @@ resource "aws_vpc" "main" {
 }
 ```
 
-### EC2 Instance Configuration (`ec2.tf`)
+### 🖥️ EC2 Instance Configuration (`ec2.tf`)
 ```hcl
 resource "aws_instance" "web" {
   ami           = "ami-0c55b159cbfafe1f0"
@@ -60,7 +68,7 @@ resource "aws_instance" "web" {
 }
 ```
 
-### RDS Configuration (`rds.tf`)
+### 🗄️ RDS Configuration (`rds.tf`)
 ```hcl
 resource "aws_db_instance" "default" {
   allocated_storage    = 20
@@ -73,7 +81,7 @@ resource "aws_db_instance" "default" {
 }
 ```
 
-### Security Groups Configuration (`security.tf`)
+### 🔒 Security Groups Configuration (`security.tf`)
 ```hcl
 resource "aws_security_group" "web_sg" {
   name        = "web-security-group"
@@ -89,25 +97,30 @@ resource "aws_security_group" "web_sg" {
 }
 ```
 
-## Usage
-1. **Initialize Terraform**
+---
+
+## 🚀 Usage
+
+1. **Initialize Terraform** 📦
    ```sh
    terraform init
    ```
-2. **Plan the deployment**
+2. **Plan the deployment** 📜
    ```sh
    terraform plan
    ```
-3. **Apply the configuration**
+3. **Apply the configuration** ✅
    ```sh
    terraform apply -auto-approve
    ```
-4. **Destroy the infrastructure (if needed)**
+4. **Destroy the infrastructure (if needed)** ❌
    ```sh
    terraform destroy -auto-approve
    ```
 
-## Outputs
+---
+
+## 📤 Outputs
 After deployment, Terraform will output useful information such as:
 ```hcl
 output "ec2_public_ip" {
@@ -119,8 +132,12 @@ output "rds_endpoint" {
 }
 ```
 
-## Contributing
+---
+
+## 🤝 Contributing
 Feel free to fork this repository and submit pull requests for improvements or additional features.
 
-## License
-This project is licensed under the MIT License.
+---
+
+## 📜 License
+📝 This project is licensed under the MIT License.
