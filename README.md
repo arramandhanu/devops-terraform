@@ -52,6 +52,24 @@ resource "aws_vpc" "main" {
     Name = "main-vpc"
   }
 }
+
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  map_public_ip_on_launch = false
+  tags = {
+    Name = "private-subnet"
+  }
+}
+
+resource "aws_subnet" "public" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "public-subnet"
+  }
+}
 ```
 
 ### 🖥️ EC2 Instance Configuration (`ec2.tf`)
@@ -60,8 +78,7 @@ resource "aws_instance" "web" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  subnet_id     = aws_subnet.main.id
-
+  subnet_id     = aws_subnet.public.id
   tags = {
     Name = "WebServer"
   }
@@ -76,8 +93,17 @@ resource "aws_db_instance" "default" {
   instance_class      = "db.t2.micro"
   username           = "admin"
   password           = "password123"
+  db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.db_sg.id]
   skip_final_snapshot = true
+}
+
+resource "aws_db_subnet_group" "main" {
+  name       = "main"
+  subnet_ids = [aws_subnet.private.id]
+  tags = {
+    Name = "DB subnet group"
+  }
 }
 ```
 
@@ -93,6 +119,19 @@ resource "aws_security_group" "web_sg" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "db_sg" {
+  name        = "db-security-group"
+  description = "Allow MySQL traffic from EC2"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = [aws_security_group.web_sg.id]
   }
 }
 ```
@@ -141,3 +180,4 @@ Feel free to fork this repository and submit pull requests for improvements or a
 
 ## 📜 License
 📝 This project is licensed under the MIT License.
+
